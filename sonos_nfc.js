@@ -8,6 +8,8 @@ var {sonos_room, sonos_http_api} = JSON.parse(fs.readFileSync('usersettings.json
 
 const nfc = new NFC()
 
+console.log("Control your Sonos with NFC cards. Searching for PCSC-compatible NFC reader devices...")
+
 nfc.on('reader', reader => {
 
     console.log(`${reader.reader.name} device attached`)
