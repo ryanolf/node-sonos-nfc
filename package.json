@@ -1,7 +1,7 @@
 {
   "name": "sonos-vinyl",
   "version": "0.1.0",
-  "description": "Use NFC tags to control Sonos - a node port of hankhank10/vinylemulator with better NFC reader compatibility",
+  "description": "Use NFC tags to control Sonos - a node app inspired by and compatible with hankhank10/vinylemulator, with better NFC reader compatibility",
   "main": "vinyl.js",
   "type": "module",
   "scripts": {
