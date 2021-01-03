@@ -119,6 +119,10 @@ nfc.on('reader', reader => {
                     const res = await fetch(urltoget)
                     if (!res.ok) throw new Error(`Unexpected response while sending instruction: ${res.status}`)
                     console.log("Sonos API reports: ", await res.json())
+                    
+                    // Wait a second before processing nexg record so the API has time to respond to first command
+                    // e.g. want to seek on a new queue -- need the new queue to exist
+                    await new Promise(resolve => setTimeout(resolve, 1000));
                 }
       
             } else {
