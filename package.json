@@ -5,13 +5,17 @@
   "main": "sonos_nfc.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-all" : "concurrently --kill-others \"npm start\" \"npm explore sonos-http-api -- npm start\"",
+    "start" : "node sonos_nfc.js"
   },
   "author": "Ryan Olf",
   "license": "MIT",
   "dependencies": {
+    "concurrently": "^5.3.0",
     "nfc-pcsc": "^0.8.0",
     "nfccard-tool": "^0.1.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "sonos-http-api": "jishi/node-sonos-http-api"
   }
 }
