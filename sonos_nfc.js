@@ -52,7 +52,7 @@ nfc.on('reader', reader => {
                         case 'uri':
                             record.text = record.uri
                         case 'text':
-                            const received_text = record.text.toLowerCase()
+                            const received_text = record.text
                             console.log('Read from NFC tag with message: ', received_text)
 
                             await process_sonos_command(received_text)
