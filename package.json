@@ -5,7 +5,7 @@
   "main": "sonos_nfc.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start-all": "concurrently --kill-others \"npm start\" \"npm explore sonos-http-api -- npm start\"",
     "start": "node sonos_nfc.js",
     "prepare": "husky install",
@@ -22,6 +22,13 @@
   },
   "devDependencies": {
     "husky": "^7.0.1",
+    "jest": "^27.0.6",
+    "jest-fetch-mock": "^3.0.3",
     "prettier": "^2.3.2"
+  },
+  "jest": {
+    "setupFiles": [
+      "./setup_tests.js"
+    ]
   }
 }

@@ -1,6 +1,6 @@
-import { NFC } from 'nfc-pcsc';
-import { default as nfcCard } from 'nfccard-tool';
-import process_sonos_command from './lib/process_sonos_command.js';
+const { NFC } = require('nfc-pcsc');
+const nfcCard = require('nfccard-tool');
+const process_sonos_command = require('./lib/process_sonos_command.js');
 
 const nfc = new NFC();
 
