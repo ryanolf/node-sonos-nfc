@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest",
     "start-all": "concurrently --kill-others \"npm start\" \"npm explore sonos-http-api -- npm start\"",
-    "start": "node sonos_nfc.js",
+    "start": "node index.js",
     "prepare": "husky install",
     "format": "prettier --write . && git add -A ."
   },
@@ -21,14 +21,13 @@
     "sonos-http-api": "jishi/node-sonos-http-api"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.9",
+    "babel-jest": "^27.0.6",
+    "babel-plugin-transform-amd-to-commonjs": "^1.4.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
     "jest-fetch-mock": "^3.0.3",
     "prettier": "^2.3.2"
-  },
-  "jest": {
-    "setupFiles": [
-      "./setup_tests.js"
-    ]
   }
 }
