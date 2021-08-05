@@ -2,8 +2,9 @@
   "name": "sonos-nfc",
   "version": "0.1.0",
   "description": "Use NFC tags to control Sonos - a node app inspired by and compatible with hankhank10/vinylemulator, with better NFC reader compatibility",
-  "main": "sonos_nfc.js",
+  "main": "index.js",
   "type": "module",
+  "repository": "https://github.com/ryanolf/node-sonos-nfc",
   "scripts": {
     "test": "jest",
     "start-all": "concurrently --kill-others \"npm start\" \"npm explore sonos-http-api -- npm start\"",
@@ -18,6 +19,7 @@
     "nfc-pcsc": "^0.8.0",
     "nfccard-tool": "^0.1.1",
     "node-fetch": "^2.6.1",
+    "signale": "^1.4.0",
     "sonos-http-api": "jishi/node-sonos-http-api"
   },
   "devDependencies": {
