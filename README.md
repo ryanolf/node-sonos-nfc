@@ -115,6 +115,32 @@ You can monitor the process output to see what's going on. If you're using pm2, 
 $ pm2 log
 ```
 
+# Configuration
+
+Various settings can be configured in the `usersettings.json` file, which you can find in the root of the project.
+
+```json
+{
+  "sonos_http_api": "http://localhost:5005",
+  "sonos_room": "Living Room",
+  "log_level": "info"
+}
+```
+
+**Sonos HTTP API endpoint**  
+The location of [node-sonos-http-api](http://jishi.github.io/node-sonos-http-api/) or another service which is compatible.
+
+**Sonos room**  
+The room which will receive any playback commands. You can program an NFC tag to change rooms as per the instructions at [Sonos Vinyl Emulator](https://github.com/hankhank10/vinylemulator#usage).
+
+**Log level**  
+Verbosity of the logger. Valid options are:
+
+- `info`: Displays all messages from all loggers.
+- `warn`: Displays messages only from the warn, error & fatal loggers.
+- `error`: Displays messages only from the error & fatal loggers.
+- `off`: Disables logging entirely.
+
 # Programming cards
 
 ## Card record format
@@ -126,3 +152,7 @@ The cards are programmed per the instructions at [Sonos Vinyl Emulator](https://
 You can probably use the card reader/writer you plan to use to write the cards using software like [NFC Tools](https://www.wakdev.com/en/apps/nfc-tools-pc-mac.html) on your Mac or PC. I like to use my iPhone. Most modern smartphones can read and write NFC with the right app.
 
 It's important that before you write, the card is properly erased and formatted. On my iPhone, I format the cards for NDEF using "NXP Tagwriter." Once the cards are formatted, I use NFC Tools on iOS to write the record(s).
+
+```
+
+```
