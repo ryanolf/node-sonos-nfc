@@ -1,5 +1,6 @@
 {
   "sonos_http_api": "http://localhost:5005",
   "sonos_room": "Living Room",
-  "log_level": "info"
+  "log_level": "info",
+  "reset_playback_options_on_queue": true
 }

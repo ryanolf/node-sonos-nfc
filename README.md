@@ -123,17 +123,30 @@ Various settings can be configured in the `usersettings.json` file, which you ca
 {
   "sonos_http_api": "http://localhost:5005",
   "sonos_room": "Living Room",
-  "log_level": "info"
+  "log_level": "info",
+  "reset_playback_options_on_queue": true
 }
 ```
 
-**Sonos HTTP API endpoint**  
-The location of [node-sonos-http-api](http://jishi.github.io/node-sonos-http-api/) or another service which is compatible.
+**Sonos HTTP API endpoint**
 
-**Sonos room**  
+- Type: `String`
+- Default: `http://localhost:5005`
+
+The URL of your [node-sonos-http-api](http://jishi.github.io/node-sonos-http-api/) instance or another service which is compatible. You can leave this setting as is unless you already have your own instance running.
+
+**Sonos room**
+
+- Type: `String`
+- Default: `Living Room`
+
 The room which will receive any playback commands. You can program an NFC tag to change rooms as per the instructions at [Sonos Vinyl Emulator](https://github.com/hankhank10/vinylemulator#usage).
 
-**Log level**  
+**Log level**
+
+- Type: `String`
+- Default: `info`
+
 Verbosity of the logger. Valid options are:
 
 - `info`: Displays all messages from all loggers.
@@ -141,11 +154,18 @@ Verbosity of the logger. Valid options are:
 - `error`: Displays messages only from the error & fatal loggers.
 - `off`: Disables logging entirely.
 
+**Reset playback options on queue**
+
+- Type: `Boolean`
+- Default: `true`
+
+When set to `true`, application turns off shuffle, repeat, and crossfade whenever new music is queued.
+
 # Programming cards
 
 ## Card record format
 
-The cards are programmed per the instructions at [Sonos Vinyl Emulator](https://github.com/hankhank10/vinylemulator). One minor difference with this program compared to Vinyl Emulator is that this program turns off shuffle, repeat, and crossfade whenever new music is queued. This should perhaps be configurable in `usersettings.json`, but it's not yet. You can enable cross fade, shuffle, or repeat on a card-by-card basis by adding records to enable these features to the card.
+The cards are programmed per the instructions at [Sonos Vinyl Emulator](https://github.com/hankhank10/vinylemulator). One minor difference with this program compared to Vinyl Emulator is that this program turns off shuffle, repeat, and crossfade whenever new music is queued. This is configurable in `usersettings.json`, see the [Configuration section](#configuration) for more info. You can also enable cross fade, shuffle, or repeat on a card-by-card basis by adding records to enable these features to the card.
 
 ## Writing cards
 
