@@ -1,3 +1,5 @@
+[![Node.js CI](https://github.com/ryanolf/node-sonos-nfc/actions/workflows/node.js.yml/badge.svg)](https://github.com/ryanolf/node-sonos-nfc/actions/workflows/node.js.yml)
+
 # Background
 
 I wanted a way for my pre-smartphone daughter to select and play music in our house. There are companies that build purpose-built players for kids that utilize cards to control what they play, but they're expensive and represent another _thing_ that we have to keep around. We already pay a monthly fee to stream pretty much anything -- why pay more? Why get another crappy speaker?
