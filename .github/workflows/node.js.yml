@@ -29,6 +29,9 @@ jobs:
       run: >
         git config --global url."https://github.com/".insteadOf
         ssh://git@github.com/
+    
+    - name: Install system dependencies
+      run: sudo apt install libpcsclite1 libpcsclite-dev pcscd
         
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
