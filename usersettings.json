@@ -1,4 +1,7 @@
 {
   "sonos_http_api": "http://localhost:5005",
-  "sonos_room": "Living Room"
+  "sonos_room": "Living Room",
+  "reset_repeat": "true",
+  "reset_shuffle": "true",
+  "reset_crossfade": "true"
 }
