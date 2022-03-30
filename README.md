@@ -121,7 +121,7 @@ $ pm2 log
 
 ## Card record format
 
-The cards are programmed per the instructions at [Sonos Vinyl Emulator](https://github.com/hankhank10/vinylemulator). One minor difference with this program compared to Vinyl Emulator is that this program turns off shuffle, repeat, and crossfade whenever new music is queued. This should perhaps be configurable in `usersettings.json`, but it's not yet. You can enable cross fade, shuffle, or repeat on a card-by-card basis by adding records to enable these features to the card.
+The cards are programmed per the instructions at [Sonos Vinyl Emulator](https://github.com/hankhank10/vinylemulator). One minor difference with this program compared to Vinyl Emulator is that this program turns off shuffle, repeat, and crossfade whenever new music is queued by default. This is configurable in `usersettings.json`, you can turn off this behaviour by adding and/or setting `reset_repeat`, `reset_shuffle` and, `reset_crossfade` parameters to False. You can also enable cross fade, shuffle, or repeat on a card-by-card basis by adding records to enable these features to the card.
 
 ## Writing cards
 
