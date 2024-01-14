@@ -14,20 +14,20 @@
   "author": "Ryan Olf",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^5.3.0",
-    "nfc-pcsc": "^0.8.0",
+    "concurrently": "^8.2.2",
+    "nfc-pcsc": "^0.8.1",
     "nfccard-tool": "^0.1.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.3.2",
     "sonos-http-api": "jishi/node-sonos-http-api"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.8",
-    "@babel/preset-env": "^7.14.9",
-    "babel-jest": "^27.0.6",
-    "babel-plugin-transform-amd-to-commonjs": "^1.4.0",
-    "husky": "^7.0.1",
-    "jest": "^27.0.6",
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
+    "babel-jest": "^29.7.0",
+    "babel-plugin-transform-amd-to-commonjs": "^1.6.0",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
     "jest-fetch-mock": "^3.0.3",
-    "prettier": "^2.3.2"
+    "prettier": "^3.2.2"
   }
 }
