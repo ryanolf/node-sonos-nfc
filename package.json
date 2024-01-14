@@ -17,7 +17,7 @@
     "concurrently": "^5.3.0",
     "nfc-pcsc": "^0.8.0",
     "nfccard-tool": "^0.1.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "sonos-http-api": "jishi/node-sonos-http-api"
   },
   "devDependencies": {
@@ -28,6 +28,6 @@
     "husky": "^7.0.1",
     "jest": "^27.0.6",
     "jest-fetch-mock": "^3.0.3",
-    "prettier": "^2.3.2"
+    "prettier": "^3.0.0"
   }
 }
