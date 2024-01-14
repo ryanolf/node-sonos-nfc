@@ -76,6 +76,8 @@ $ npm install
 
 For simplicity, [sonos-http-api](https://github.com/jishi/node-sonos-http-api), needed for this program to work, is included as a dependency, though you don't need to use it if you already have an http api running elsewhere.
 
+If you _DO_ want to use the included Sonos HTTP API, you'll need to configure it. Rename the `usersettings.json.example` to `usersettings.json` and edit it to your liking. You'll need to set the `spotify` and/or `apple` sections to your credentials. You can also set the `http` section to your liking. The defaults should work fine for most people.
+
 ## Run all the time
 
 To run continuously and at boot, you'll want to run under some supervisor program. There are lots of options, like systemd (built-in already), supervisord, and pm2. I have found pm2, recommended by the author of Vinyl Emulator, to be very easy to use. To have pm2 spin-up sonos_nfc at boot and keep it
@@ -103,7 +105,7 @@ e.g.
 $ sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
 ```
 
-If you already have the http API running elsewhere, you can direct this program to that server via the `usersettings.json` and instead run just this program via `npm start`, so replace the `pm2 start` command above with
+If you already have the http API running elsewhere, you can direct this program to that server via the `usersettings.json` (rename it from .example and update to how you would like to use) and instead run just this program via `npm start`, so replace the `pm2 start` command above with
 
 ```
 $ pm2 start npm -- start
