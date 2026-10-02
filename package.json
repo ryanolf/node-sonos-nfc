@@ -5,14 +5,14 @@
   "main": "sonos_nfc.js",
   "type": "module",
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=20.0.0",
     "npm": ">=7.0.0"
   },
   "scripts": {
     "test": "jest",
     "start-all": "concurrently --kill-others \"npm start\" \"npm explore sonos-http-api -- npm start\"",
     "start": "node index.js",
-    "prepare": "husky install",
+    "prepare": "husky",
     "format": "prettier --write . && git add -A ."
   },
   "author": "Ryan Olf",
