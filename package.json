@@ -1,6 +1,6 @@
 {
   "name": "sonos-nfc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Use NFC tags to control Sonos - a node app inspired by and compatible with hankhank10/vinylemulator, with better NFC reader compatibility",
   "main": "sonos_nfc.js",
   "type": "module",
