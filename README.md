@@ -163,7 +163,7 @@ $ pm2 save
 
 ### If the reader can't be accessed
 
-On Debian Trixie, if the logs show the program can't access the reader even after adding the polkit rule above, you can run everything as root by putting `sudo` in front of each `pm2` command above, e.g. `sudo pm2 start npm --name sonos-nfc -- run start-all`, `sudo pm2 startup` and `sudo pm2 save`. Treat this as a last resort: it also runs the included Sonos HTTP API, which listens on your network, as root.
+On Debian Trixie, if the program still can't read cards after adding the polkit rule above, first work through [Troubleshooting the card reader](#troubleshooting-the-card-reader) below; a typo in the rule file is easy to miss. As a last resort, you can run everything as root by putting `sudo` in front of each `pm2` command above, e.g. `sudo pm2 start npm --name sonos-nfc -- run start-all`, `sudo pm2 startup` and `sudo pm2 save`. Avoid this if you can: it also runs the included Sonos HTTP API, which listens on your network, as root.
 
 ## Debug
 
@@ -174,6 +174,21 @@ $ pm2 log
 ```
 
 (or `sudo pm2 log` if you started it with `sudo`).
+
+### Troubleshooting the card reader
+
+If the reader is detected but cards aren't read (for example, the log shows a card `with UID undefined`), check whether the reader works outside this program. Install `pcsc-tools` and run `pcsc_scan` as the same user that runs this program, without `sudo`, then present a card:
+
+```
+$ sudo apt install pcsc-tools
+$ pcsc_scan
+```
+
+If `pcsc_scan` can't read the card either, the problem is in the system setup rather than this program. On Debian Trixie and later, the usual cause is polkit:
+
+- Check the rule file for typos: `cat /etc/polkit-1/rules.d/60-pcscd.rules`. Errors in it are logged by `sudo journalctl -u polkit -b`.
+- Check that your user is in the `plugdev` group with `id`. After adding yourself, log out and back in (or reboot).
+- Look at what `pcscd` logged right after you presented a card: `sudo journalctl -u pcscd -b`. A refusal shows up as a line saying the process `is NOT authorized for action`.
 
 # Programming cards
 
