@@ -4,30 +4,34 @@
   "description": "Use NFC tags to control Sonos - a node app inspired by and compatible with hankhank10/vinylemulator, with better NFC reader compatibility",
   "main": "sonos_nfc.js",
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=7.0.0"
+  },
   "scripts": {
     "test": "jest",
     "start-all": "concurrently --kill-others \"npm start\" \"npm explore sonos-http-api -- npm start\"",
     "start": "node index.js",
-    "prepare": "husky install",
+    "prepare": "husky",
     "format": "prettier --write . && git add -A ."
   },
   "author": "Ryan Olf",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.2.1",
     "nfc-pcsc": "^0.8.1",
     "nfccard-tool": "^0.1.1",
     "node-fetch": "^3.3.2",
     "sonos-http-api": "jishi/node-sonos-http-api"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.7",
-    "@babel/preset-env": "^7.23.8",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
     "babel-jest": "^29.7.0",
     "babel-plugin-transform-amd-to-commonjs": "^1.6.0",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-fetch-mock": "^3.0.3",
-    "prettier": "^3.2.2"
+    "prettier": "^3.3.3"
   }
 }

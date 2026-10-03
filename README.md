@@ -36,16 +36,48 @@ You also need to make sure your computer can speak PC/SC. In Ubuntu/Debian, inst
 $ sudo apt install libpcsclite1 libpcsclite-dev pcscd
 ```
 
-If you're running a version of Linux, your computer may try to use the nfc kernel module to talk to tyour ACR122U. You don't want it to do this, so make sure the nfc and enabling modules are not loaded. In Ubuntu/Debian/Raspberry Pi OS, blacklist pn533, pn533_usb, nfc modules so that they don't hijack the card reader.
+If you're running a version of Linux, your computer may try to use the nfc kernel module to talk to your ACR122U. You don't want it to do this, so make sure the nfc and enabling modules are not loaded. In Ubuntu/Debian/Raspberry Pi OS, blacklist pn533, pn533_usb, nfc modules so that they don't hijack the card reader.
 
 ```
-$ printf '%s\n' 'pn533' 'pn533_usb' 'nfc' | sudo tee /etc/modprobe.d/blacklist-nfc.conf
+$ printf '%s\n' 'blacklist pn533' 'blacklist pn533_usb' 'blacklist nfc' | sudo tee /etc/modprobe.d/blacklist-nfc.conf
+```
+
+### Debian Trixie and later
+
+Starting with Debian Trixie (and Raspberry Pi OS based on it), `pcscd` uses polkit to decide who may use the card reader. By default only a user logged in at the console is allowed, so a program running in the background (e.g. started by pm2 at boot) is refused. To allow members of the `plugdev` group to use the reader, create `/etc/polkit-1/rules.d/60-pcscd.rules` with this content:
+
+```
+polkit.addRule(function(action, subject) {
+    if ((action.id == "org.debian.pcsc-lite.access_pcsc" ||
+         action.id == "org.debian.pcsc-lite.access_card") &&
+        subject.isInGroup("plugdev")) {
+        return polkit.Result.YES;
+    }
+});
+```
+
+Both actions are needed: `access_pcsc` allows connecting to `pcscd` and `access_card` allows reading the card. Make sure the user that will run this program is in the `plugdev` group (the default user on Raspberry Pi OS already is). `groups` lists your groups, and this adds you:
+
+```
+$ sudo usermod -aG plugdev $USER
+```
+
+If you're using the ACR122U and it still isn't detected, create `/etc/udev/rules.d/99-acr122.rules` with this content:
+
+```
+SUBSYSTEM=="usb", ATTRS{idVendor}=="072f", ATTRS{idProduct}=="2200", GROUP="plugdev", MODE="0660"
+```
+
+and reload the udev rules:
+
+```
+$ sudo udevadm control --reload-rules
 ```
 
 To make sure everything is square, it's probably a good idea to reboot. In Ubuntu/Debian/Raspberry Pi OS:
 
 ```
-$ sudo reboot
+$ sudo reboot now
 ```
 
 ## Setup Node
@@ -54,7 +86,7 @@ Install node and npm, e.g. download or follow the [official instructions](https:
 so that you can run this code. On Ubuntu/Debian/Raspberry Pi OS, I do this:
 
 ```
-$ curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+$ curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
 ```
 
@@ -76,7 +108,19 @@ $ npm install
 
 For simplicity, [sonos-http-api](https://github.com/jishi/node-sonos-http-api), needed for this program to work, is included as a dependency, though you don't need to use it if you already have an http api running elsewhere.
 
-If you _DO_ want to use the included Sonos HTTP API, you'll need to configure it. Rename the `usersettings.json.example` to `usersettings.json` and edit it to your liking. You'll need to set the `spotify` and/or `apple` sections to your credentials. You can also set the `http` section to your liking. The defaults should work fine for most people.
+If you _DO_ want to use the included Sonos HTTP API, it works out of the box with its built-in defaults. To use services that need credentials (e.g. Spotify or Apple Music) or to change other options, create a `settings.json` file in the `node_modules/sonos-http-api` directory, which is where sonos-http-api looks for it. See the [sonos-http-api](https://github.com/jishi/node-sonos-http-api) README for the available settings. Note that `npm install` and `npm ci` can delete and recreate `node_modules`, taking your `settings.json` with it, so keep a copy somewhere else and copy it back after updating this program.
+
+## Configure this program
+
+Copy the example settings to `usersettings.json` and edit it:
+
+```
+$ cp usersettings.json.example usersettings.json
+```
+
+Set `sonos_room` to the name of the Sonos room to play music in, as it appears in the Sonos app. `sonos_http_api` is the address of the Sonos HTTP API; the default, `http://127.0.0.1:5005`, is correct if you're running the included one on the same computer. If you have an older `usersettings.json` that uses `http://localhost:5005` and the program can't reach the API, change it to `http://127.0.0.1:5005`.
+
+If there is no `usersettings.json`, the program prints a message at startup and uses the example settings instead.
 
 ## Run all the time
 
@@ -90,7 +134,13 @@ $ sudo npm install -g pm2
 and spin-up sonos_nfc and sonos-http-api:
 
 ```
-$ pm2 start npm -- run start-all
+$ pm2 start npm --name sonos-nfc -- run start-all
+```
+
+If you already have the http API running elsewhere, set `sonos_http_api` in `usersettings.json` to point at that server and instead run just this program via `npm start`, so replace the `pm2 start` command above with
+
+```
+$ pm2 start npm --name sonos-nfc -- start
 ```
 
 Then, to configure your system to run the startup, follow the instructions given when you run
@@ -105,11 +155,15 @@ e.g.
 $ sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
 ```
 
-If you already have the http API running elsewhere, you can direct this program to that server via the `usersettings.json` (rename it from .example and update to how you would like to use) and instead run just this program via `npm start`, so replace the `pm2 start` command above with
+and save the running process so pm2 restores it at boot:
 
 ```
-$ pm2 start npm -- start
+$ pm2 save
 ```
+
+### If the reader can't be accessed
+
+On Debian Trixie, if the program still can't read cards after adding the polkit rule above, first work through [Troubleshooting the card reader](#troubleshooting-the-card-reader) below; a typo in the rule file is easy to miss. As a last resort, you can run everything as root by putting `sudo` in front of each `pm2` command above, e.g. `sudo pm2 start npm --name sonos-nfc -- run start-all`, `sudo pm2 startup` and `sudo pm2 save`. Avoid this if you can: it also runs the included Sonos HTTP API, which listens on your network, as root.
 
 ## Debug
 
@@ -118,6 +172,23 @@ You can monitor the process output to see what's going on. If you're using pm2, 
 ```
 $ pm2 log
 ```
+
+(or `sudo pm2 log` if you started it with `sudo`).
+
+### Troubleshooting the card reader
+
+If the reader is detected but cards aren't read (for example, the log shows a card `with UID undefined`), check whether the reader works outside this program. Install `pcsc-tools` and run `pcsc_scan` as the same user that runs this program, without `sudo`, then present a card:
+
+```
+$ sudo apt install pcsc-tools
+$ pcsc_scan
+```
+
+If `pcsc_scan` can't read the card either, the problem is in the system setup rather than this program. On Debian Trixie and later, the usual cause is polkit:
+
+- Check the rule file for typos: `cat /etc/polkit-1/rules.d/60-pcscd.rules`. Errors in it are logged by `sudo journalctl -u polkit -b`.
+- Check that your user is in the `plugdev` group with `id`. After adding yourself, log out and back in (or reboot).
+- Look at what `pcscd` logged right after you presented a card: `sudo journalctl -u pcscd -b`. A refusal shows up as a line saying the process `is NOT authorized for action`.
 
 # Programming cards
 
