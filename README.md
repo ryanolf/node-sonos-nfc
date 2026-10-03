@@ -62,18 +62,6 @@ Both actions are needed: `access_pcsc` allows connecting to `pcscd` and `access_
 $ sudo usermod -aG plugdev $USER
 ```
 
-If you're using the ACR122U and it still isn't detected, create `/etc/udev/rules.d/99-acr122.rules` with this content:
-
-```
-SUBSYSTEM=="usb", ATTRS{idVendor}=="072f", ATTRS{idProduct}=="2200", GROUP="plugdev", MODE="0660"
-```
-
-and reload the udev rules:
-
-```
-$ sudo udevadm control --reload-rules
-```
-
 To make sure everything is square, it's probably a good idea to reboot. In Ubuntu/Debian/Raspberry Pi OS:
 
 ```
